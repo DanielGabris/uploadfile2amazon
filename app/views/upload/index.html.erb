@@ -17,10 +17,10 @@
     if (angularVersion.indexOf('/') == 0) angularVersion = angularVersion.substring(1);
     document.write('<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/' +
         (angularVersion || '1.2.24') + '/angular.js"><\/script>');
-  </script><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.js"></script>
   <%= javascript_include_tag("ng-file-upload-shim.js") %>
   <%= javascript_include_tag("ng-file-upload.js") %>
   <%= javascript_include_tag("upload.js") %>
+  <%= javascript_include_tag("angular.js") %>
 
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.8.0/codemirror.min.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.8.0/codemirror.min.js"></script>
