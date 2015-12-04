@@ -7,7 +7,7 @@ var version = '9.1.0';
 app.controller('MyCtrl', ['$scope', '$http', '$timeout', '$compile', 'Upload', function ($scope, $http, $timeout, $compile, Upload) {
     $scope.usingFlash = FileAPI && FileAPI.upload != null;
     //Upload.setDefaults({ngfKeep: true, ngfPattern:'image/*'});
-    $scope.changeAngularVersion = function () {
+    $scope.changeAngularVersion = function () {iou
         window.location.hash = $scope.angularVersion;
         window.location.reload(true);
     };
@@ -83,6 +83,7 @@ app.controller('MyCtrl', ['$scope', '$http', '$timeout', '$compile', 'Upload', f
         }, function (response) {
             if (response.status > 0)
                 $scope.errorMsg = response.status + ': ' + response.data;
+                console.log($scope.errorMsg);
         }, function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
@@ -108,6 +109,7 @@ app.controller('MyCtrl', ['$scope', '$http', '$timeout', '$compile', 'Upload', f
         }, function (response) {
             if (response.status > 0)
                 $scope.errorMsg = response.status + ': ' + response.data;
+                console.log($scope.errorMsg);
         });
 
         file.upload.progress(function (evt) {
@@ -138,8 +140,8 @@ app.controller('MyCtrl', ['$scope', '$http', '$timeout', '$compile', 'Upload', f
         }, function (response) {
             if (response.status > 0)
                 $scope.errorMsg = response.status + ': ' + response.data;
+                document.getElementById('error_tt').innerHTML = $scope.errorMsg;
         });
-
         file.upload.progress(function (evt) {
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
         });
@@ -147,13 +149,14 @@ app.controller('MyCtrl', ['$scope', '$http', '$timeout', '$compile', 'Upload', f
     }
 
     $scope.generateSignature = function () {
-        $http.post('/s3sign?aws-secret-key=' + encodeURIComponent($scope.AWSSecretKey), $scope.jsonPolicy).
-        success(function (data) {
-            $scope.policy = data.policy;
-            $scope.signature = data.signature;
-        });
+        $scope.policy    = "ewogICJleHBpcmF0aW9uIjogIjIwMjAtMDEtMDFUMDA6MDA6MDBaIiwKICAiY29uZGl0aW9ucyI6IFsKICAgIHsiYnVja2V0IjogImxlenllb2gifSwKICAgIFsic3RhcnRzLXdpdGgiLCAiJGtleSIsICIiXSwKICAgIHsiYWNsIjogInByaXZhdGUifSwKICAgIFsic3RhcnRzLXdpdGgiLCAiJENvbnRlbnQtVHlwZSIsICIiXSwKICAgIFsic3RhcnRzLXdpdGgiLCAiJGZpbGVuYW1lIiwgIiJdLAogICAgWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsIDAsIDUyNDI4ODAwMF0KICBdCn0=";
+        $scope.signature = "CQFvMBBaHYQNou6m2YNxZARdsIc=";
+  //      $http.post('/s3sign?awssecretkey=' + encodeURIComponent($scope.AWSSecretKey), $scope.jsonPolicy).
+  //      success(function (data) {
+  //          $scope.policy = data.policy;
+  //          $scope.signature = data.signature;
+  //     });
     };
-
     if (localStorage) {
         $scope.s3url = localStorage.getItem('s3url');
         $scope.AWSAccessKeyId = localStorage.getItem('AWSAccessKeyId');
@@ -164,7 +167,7 @@ app.controller('MyCtrl', ['$scope', '$http', '$timeout', '$compile', 'Upload', f
     }
 
     $scope.success_action_redirect = $scope.success_action_redirect || window.location.protocol + '//' + window.location.host;
-    $scope.jsonPolicy = $scope.jsonPolicy || '{\n  "expiration": "2020-01-01T00:00:00Z",\n  "conditions": [\n    {"bucket": "angular-file-upload"},\n    ["starts-with", "$key", ""],\n    {"acl": "private"},\n    ["starts-with", "$Content-Type", ""],\n    ["starts-with", "$filename", ""],\n    ["content-length-range", 0, 524288000]\n  ]\n}';
+    $scope.jsonPolicy = '{\n  "expiration": "2020-01-01T00:00:00Z",\n  "conditions": [\n    {"bucket": "lezyeoh"},\n    ["starts-with", "$key", ""],\n    {"acl": "private"},\n    ["starts-with", "$Content-Type", ""],\n    ["starts-with", "$filename", ""],\n    ["content-length-range", 0, 524288000]\n  ]\n}';
     $scope.acl = $scope.acl || 'private';
 
     function storeS3UploadConfigInLocalStore() {
@@ -179,17 +182,21 @@ app.controller('MyCtrl', ['$scope', '$http', '$timeout', '$compile', 'Upload', f
     }
 
     (function handleDynamicEditingOfScriptsAndHtml($scope) {
-        $scope.defaultHtml = document.getElementById('editArea').innerHTML.replace(/\t\t\t\t/g, '').replace(/&amp;/g, '&');
+        $scope.defaultHtml = document.getElementById('editArea').innerHTML;
 
         var fromLocal = (localStorage && localStorage.getItem('editHtml' + version));
-        $scope.editHtml = fromLocal || $scope.defaultHtml;
+        $scope.editHtml = $scope.defaultHtml;
         function htmlEdit() {
             document.getElementById('editArea').innerHTML = $scope.editHtml;
             $compile(document.getElementById('editArea'))($scope);
             $scope.editHtml && localStorage && localStorage.setItem('editHtml' + version, $scope.editHtml);
             if ($scope.editHtml != $scope.htmlEditor.getValue()) $scope.htmlEditor.setValue($scope.editHtml);
         }
-
+        $scope.s3url = "https://lezyeoh.s3.amazonaws.com";
+        $scope.AWSAccessKeyId = "AKIAJHNJN3LQFL3MJOFA";
+        $scope.signature = "CQFvMBBaHYQNou6m2YNxZARdsIc=";
+        $scope.AWSSecretKey = "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";
+        $scope.policy = "ewogICJleHBpcmF0aW9uIjogIjIwMjAtMDEtMDFUMDA6MDA6MDBaIiwKICAiY29uZGl0aW9ucyI6IFsKICAgIHsiYnVja2V0IjogImxlenllb2gifSwKICAgIFsic3RhcnRzLXdpdGgiLCAiJGtleSIsICIiXSwKICAgIHsiYWNsIjogInByaXZhdGUifSwKICAgIFsic3RhcnRzLXdpdGgiLCAiJENvbnRlbnQtVHlwZSIsICIiXSwKICAgIFsic3RhcnRzLXdpdGgiLCAiJGZpbGVuYW1lIiwgIiJdLAogICAgWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsIDAsIDUyNDI4ODAwMF0KICBdCn0=";
         $scope.$watch('editHtml', htmlEdit);
 
         $scope.htmlEditor = CodeMirror(document.getElementById('htmlEdit'), {
@@ -211,6 +218,7 @@ app.controller('MyCtrl', ['$scope', '$http', '$timeout', '$compile', 'Upload', f
     $scope.getReqParams = function () {
         return $scope.generateErrorOnServer ? '?errorCode=' + $scope.serverErrorCode +
         '&errorMessage=' + $scope.serverErrorMsg : '';
+        //console.log($scope.serverErrorMsg);
     };
 
     angular.element(window).bind('dragover', function (e) {

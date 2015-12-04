@@ -14,8 +14,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-//= require angular.js
-//= require ng-file-upload.js
-//= require ng-file-upload-shim.js
-//= require upload.js
+//= require angular
+//= require ng-file-upload
+//= require ng-file-upload-shim
+//= require upload
 
