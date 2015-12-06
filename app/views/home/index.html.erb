@@ -7,11 +7,6 @@
     </div>
 
     <div class="form-group">
-      <label>Auto upload</label>
-      <div s3-upload bucket="<%= @bucket %>" ng-model="files.first"></div>
-    </div>
-
-    <div class="form-group">
       <label>Upload on demand</label>
       <div s3-upload bucket="<%= @bucket %>" ng-model="files.first" s3-upload-options="{submitOnChange: false}" do-upload="performUpload"></div>
 
