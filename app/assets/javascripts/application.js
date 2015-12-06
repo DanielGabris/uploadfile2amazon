@@ -13,4 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require angular.min
+//= require angular-sanitize.min
+//= require ng-s3upload
 //= require_tree .
