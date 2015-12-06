@@ -12046,7 +12046,7 @@ angular.module('ngS3upload.directives', []).
               enableValidation: true,
               targetFilename: null
             }, opts);
-            var bucket = scope.$eval(attrs.bucket);
+            var bucket = attrs.bucket;
 
             // Bind the button click event
             var button = angular.element(element.children()[0]),
